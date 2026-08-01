@@ -29,7 +29,8 @@ const routes = {
 class Router {
   constructor(routes) {
     this.routes = routes;
-    this.currentPath = '/';
+    // null (not '/') so the first navigate() is never a no-op.
+    this.currentPath = null;
     this.outlet = document.getElementById('router-outlet');
   }
 
@@ -37,24 +38,36 @@ class Router {
     // Handle initial route
     this.navigate(window.location.pathname);
 
-    // Handle navigation
+    // Handle back/forward
     window.addEventListener('popstate', () => {
       this.navigate(window.location.pathname);
     });
 
-    // Handle link clicks
+    // Intercept same-origin link clicks
     document.addEventListener('click', (e) => {
-      const link = e.target.closest('a[href^="/"]');
-      if (link && !link.hasAttribute('target')) {
-        e.preventDefault();
-        this.navigate(link.href);
-      }
+      // Let modified clicks (new tab, download, etc.) behave natively.
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      const link = e.target.closest('a[href]');
+      if (!link || link.hasAttribute('target') || link.hasAttribute('download')) return;
+
+      const url = new URL(link.href, window.location.origin);
+      if (url.origin !== window.location.origin) return;
+
+      // In-page anchors (#section) scroll natively.
+      if (url.pathname === window.location.pathname && url.hash) return;
+
+      e.preventDefault();
+      this.navigate(url.pathname);
     });
   }
 
   navigate(path) {
-    // Normalize path
+    // Normalize: strip query/hash, drop any trailing slash except root.
     path = path.split('?')[0].split('#')[0];
+    if (path.length > 1) path = path.replace(/\/+$/, '');
+    if (path === '') path = '/';
 
     if (this.currentPath === path) return;
 

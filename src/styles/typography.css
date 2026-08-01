@@ -21,8 +21,8 @@
   margin-bottom: var(--space-5);
 }
 
-/* Heading Level */
-.heading-1 {
+/* Heading Level — semantic tag and utility class share one rule */
+h1, .heading-1 {
   font-family: var(--font-serif);
   font-size: var(--text-5xl);
   font-weight: var(--weight-bold);
@@ -31,7 +31,7 @@
   margin-bottom: var(--space-4);
 }
 
-.heading-2 {
+h2, .heading-2 {
   font-family: var(--font-serif);
   font-size: var(--text-4xl);
   font-weight: var(--weight-bold);
@@ -40,7 +40,7 @@
   margin-bottom: var(--space-4);
 }
 
-.heading-3 {
+h3, .heading-3 {
   font-family: var(--font-serif);
   font-size: var(--text-3xl);
   font-weight: var(--weight-bold);
@@ -48,7 +48,7 @@
   margin-bottom: var(--space-3);
 }
 
-.heading-4 {
+h4, .heading-4 {
   font-family: var(--font-sans);
   font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
@@ -56,7 +56,7 @@
   margin-bottom: var(--space-3);
 }
 
-.heading-5 {
+h5, .heading-5 {
   font-family: var(--font-sans);
   font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
@@ -64,21 +64,13 @@
   margin-bottom: var(--space-2);
 }
 
-.heading-6 {
+h6, .heading-6 {
   font-family: var(--font-sans);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
   margin-bottom: var(--space-2);
 }
-
-/* Semantic HTML */
-h1 { @extend .heading-1; }
-h2 { @extend .heading-2; }
-h3 { @extend .heading-3; }
-h4 { @extend .heading-4; }
-h5 { @extend .heading-5; }
-h6 { @extend .heading-6; }
 
 /* Body Text Styles */
 .body-lg {
@@ -88,14 +80,22 @@ h6 { @extend .heading-6; }
   color: var(--color-text-primary);
 }
 
-.body-base {
+p, .body-base {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
   color: var(--color-text-primary);
 }
 
-.body-sm {
+p {
+  margin-bottom: var(--space-4);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+small, .body-sm {
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-relaxed);
@@ -107,16 +107,6 @@ h6 { @extend .heading-6; }
   font-size: var(--text-xs);
   line-height: var(--leading-normal);
   color: var(--color-text-tertiary);
-}
-
-/* Semantic HTML */
-p {
-  @extend .body-base;
-  margin-bottom: var(--space-4);
-}
-
-small {
-  @extend .body-sm;
 }
 
 /* Label & Caption */

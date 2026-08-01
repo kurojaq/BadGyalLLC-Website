@@ -115,14 +115,9 @@ class NailAtelier {
   }
 
   createNail(x) {
-    // Create nail as a tapered box
-    const shape = new THREE.Shape();
-
-    // Nail shape based on current customization
     const length = 0.4 + this.customization.length * 0.3;
     const width = 0.15;
 
-    // Create a simple nail geometry
     const geometry = new THREE.BoxGeometry(width, length, 0.05);
     geometry.translate(0, length / 2 - 0.1, 0.2);
 
@@ -197,6 +192,7 @@ class NailAtelier {
           nail.mesh.rotation.y += deltaX * 0.005;
           nail.mesh.rotation.x += deltaY * 0.005;
         });
+        this.render();
 
         previousMousePosition = { x: e.clientX, y: e.clientY };
       }
@@ -221,11 +217,20 @@ class NailAtelier {
     });
   }
 
+  /**
+   * Draw one frame immediately. Every mutator calls this so changes land even
+   * when requestAnimationFrame is throttled (backgrounded tab, hidden pane).
+   */
+  render() {
+    this.renderer.render(this.scene, this.camera);
+  }
+
   updateColor(color) {
     this.customization.color = color;
     this.nails.forEach((nail) => {
       nail.mesh.material.color.set(color);
     });
+    this.render();
   }
 
   updateFinish(finish) {
@@ -234,16 +239,19 @@ class NailAtelier {
       nail.mesh.material.dispose();
       nail.mesh.material = this.createNailMaterial();
     });
+    this.render();
   }
 
   updateLength(length) {
     this.customization.length = Math.max(0, Math.min(1, length));
-    // Update nail geometries
+    const nailLength = 0.4 + this.customization.length * 0.3;
     this.nails.forEach((nail) => {
       nail.mesh.geometry.dispose();
-      nail.mesh.geometry = new THREE.BoxGeometry(0.15, 0.4 + this.customization.length * 0.3, 0.05);
-      nail.mesh.geometry.translate(0, (0.4 + this.customization.length * 0.3) / 2 - 0.1, 0.2);
+      const geometry = new THREE.BoxGeometry(0.15, nailLength, 0.05);
+      geometry.translate(0, nailLength / 2 - 0.1, 0.2);
+      nail.mesh.geometry = geometry;
     });
+    this.render();
   }
 
   getCustomization() {
@@ -276,6 +284,7 @@ class NailAtelier {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
+    this.render();
   }
 
   dispose() {

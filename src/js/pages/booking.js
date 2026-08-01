@@ -1,164 +1,255 @@
 /**
- * Booking Page - Enhanced Multi-Step Booking System
+ * Booking Page — multi-step appointment flow
+ *
+ * Steps: service → date/time → contact details → confirmation.
+ * State lives in the shared store so the summary and the atelier stay in sync.
  */
 
 import { store } from '../store.js';
 
+const TIME_SLOTS = ['10:00 AM', '11:30 AM', '1:00 PM', '2:30 PM', '4:00 PM'];
+
 export function loadBookingPage(outlet) {
+  const services = store.services;
+
   outlet.innerHTML = `
     <section class="section">
       <div class="container container-sm">
-        <h1 class="heading-2" style="text-align: center; margin-bottom: var(--space-8);">
-          Book Your Appointment
-        </h1>
+        <h1 class="heading-2" style="text-align: center;">Book Your Appointment</h1>
+        <p class="body-base" style="text-align: center; color: var(--color-text-secondary); margin-bottom: var(--space-7);">
+          Choose a service, pick a time, and we'll prepare for your visit.
+        </p>
 
-        <form class="booking-form">
-          <!-- Step 1: Service Selection -->
-          <div class="booking-step active">
-            <div class="step-indicator" style="margin-bottom: var(--spacing-6);">
-              <div class="step-dot active">1</div>
-              <div class="step-dot">2</div>
-              <div class="step-dot">3</div>
+        <!-- Progress -->
+        <ol class="step-indicator" aria-label="Booking progress">
+          <li class="step-dot is-current" data-step="0"><span aria-hidden="true">1</span><span class="sr-only">Service</span></li>
+          <li class="step-dot" data-step="1"><span aria-hidden="true">2</span><span class="sr-only">Date and time</span></li>
+          <li class="step-dot" data-step="2"><span aria-hidden="true">3</span><span class="sr-only">Your details</span></li>
+        </ol>
+
+        <form class="booking-form" id="booking-form" novalidate>
+
+          <!-- Step 1 — Service -->
+          <fieldset class="booking-step is-active" data-step="0">
+            <legend class="heading-4">Select a service</legend>
+            <div style="display: grid; gap: var(--space-3); margin-bottom: var(--space-6);">
+              ${Object.entries(services).map(([key, svc], i) => `
+                <label class="service-option">
+                  <input type="radio" name="service" value="${key}" ${i === 0 ? 'checked' : ''}>
+                  <span class="service-option__body">
+                    <span class="service-option__name">${svc.name}</span>
+                    <span class="service-option__meta">${svc.duration} min</span>
+                  </span>
+                  <span class="service-option__price">$${svc.basePrice}</span>
+                </label>
+              `).join('')}
             </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-nav="next">Continue</button>
+          </fieldset>
 
-            <h3 style="margin-bottom: var(--spacing-4);">Select Service</h3>
-
-            <div style="display: grid; gap: var(--spacing-3);">
-              <label class="card" style="cursor: pointer;">
-                <input type="radio" name="service" value="manicure" checked style="margin-right: var(--spacing-2);">
-                <span><strong>Manicure</strong> - 60 min • $65</span>
-              </label>
-              <label class="card" style="cursor: pointer;">
-                <input type="radio" name="service" value="pedicure" style="margin-right: var(--spacing-2);">
-                <span><strong>Pedicure</strong> - 90 min • $85</span>
-              </label>
-              <label class="card" style="cursor: pointer;">
-                <input type="radio" name="service" value="extensions" style="margin-right: var(--spacing-2);">
-                <span><strong>Extensions</strong> - 120 min • $120</span>
-              </label>
-              <label class="card" style="cursor: pointer;">
-                <input type="radio" name="service" value="nail-art" style="margin-right: var(--spacing-2);">
-                <span><strong>Nail Art</strong> - 90 min • $95</span>
-              </label>
-            </div>
-
-            <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-top: var(--spacing-6);" onclick="nextStep(this)">Next</button>
-          </div>
-
-          <!-- Step 2: Date & Time -->
-          <div class="booking-step">
-            <div class="step-indicator" style="margin-bottom: var(--spacing-6);">
-              <div class="step-dot completed">✓</div>
-              <div class="step-dot active">2</div>
-              <div class="step-dot">3</div>
-            </div>
-
-            <h3 style="margin-bottom: var(--spacing-4);">Select Date & Time</h3>
+          <!-- Step 2 — Date & time -->
+          <fieldset class="booking-step" data-step="1">
+            <legend class="heading-4">Pick a date and time</legend>
 
             <div class="form-group">
-              <label class="form-label">Date</label>
-              <input type="date" class="form-control" required>
+              <label class="form-label" for="booking-date-input">Date</label>
+              <input type="date" class="form-control" id="booking-date-input" required>
+              <span class="form-error" id="date-error" hidden>Please choose a date that isn't in the past.</span>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Time</label>
-              <select class="form-control" required>
+              <label class="form-label" for="booking-time-input">Time</label>
+              <select class="form-control" id="booking-time-input" required>
                 <option value="">Select a time</option>
-                <option>10:00 AM</option>
-                <option>11:00 AM</option>
-                <option>2:00 PM</option>
-                <option>3:00 PM</option>
-                <option>4:00 PM</option>
+                ${TIME_SLOTS.map(t => `<option value="${t}">${t}</option>`).join('')}
               </select>
+              <span class="form-error" id="time-error" hidden>Please choose a time slot.</span>
             </div>
 
-            <div style="display: flex; gap: var(--spacing-3);">
-              <button type="button" class="btn btn-secondary btn-lg" style="flex: 1;" onclick="prevStep(this)">Back</button>
-              <button type="button" class="btn btn-primary btn-lg" style="flex: 1;" onclick="nextStep(this)">Next</button>
+            <div style="display: flex; gap: var(--space-3); margin-top: var(--space-6);">
+              <button type="button" class="btn btn-secondary btn-lg" style="flex: 1;" data-nav="prev">Back</button>
+              <button type="button" class="btn btn-primary btn-lg" style="flex: 1;" data-nav="next">Continue</button>
             </div>
-          </div>
+          </fieldset>
 
-          <!-- Step 3: Confirmation -->
-          <div class="booking-step">
-            <div class="step-indicator" style="margin-bottom: var(--spacing-6);">
-              <div class="step-dot completed">✓</div>
-              <div class="step-dot completed">✓</div>
-              <div class="step-dot active">3</div>
-            </div>
+          <!-- Step 3 — Details & confirm -->
+          <fieldset class="booking-step" data-step="2">
+            <legend class="heading-4">Your details</legend>
 
-            <h3 style="margin-bottom: var(--spacing-4);">Confirm Booking</h3>
-
-            <div class="card" style="margin-bottom: var(--spacing-4);">
-              <h4>Booking Summary</h4>
-              <table>
-                <tr>
-                  <td><strong>Service:</strong></td>
-                  <td>Manicure</td>
-                </tr>
-                <tr>
-                  <td><strong>Duration:</strong></td>
-                  <td>60 minutes</td>
-                </tr>
-                <tr>
-                  <td><strong>Date:</strong></td>
-                  <td id="booking-date">-</td>
-                </tr>
-                <tr>
-                  <td><strong>Time:</strong></td>
-                  <td id="booking-time">-</td>
-                </tr>
-                <tr style="border-top: 2px solid var(--color-border);">
-                  <td><strong>Price:</strong></td>
-                  <td id="booking-price" style="color: var(--color-accent); font-weight: bold;">$65</td>
-                </tr>
-              </table>
+            <div class="card" style="background-color: var(--color-bg-secondary); margin-bottom: var(--space-5);">
+              <h3 class="label" style="margin-bottom: var(--space-3);">Booking summary</h3>
+              <dl class="summary-list" id="booking-summary"></dl>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" class="form-control" required>
+              <label class="form-label" for="customer-name">Name</label>
+              <input type="text" class="form-control" id="customer-name" autocomplete="name" required>
+              <span class="form-error" id="name-error" hidden>Please enter your name.</span>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Phone</label>
-              <input type="tel" class="form-control" required>
+              <label class="form-label" for="customer-email">Email</label>
+              <input type="email" class="form-control" id="customer-email" autocomplete="email" required>
+              <span class="form-error" id="email-error" hidden>Please enter a valid email address.</span>
             </div>
 
-            <div style="display: flex; gap: var(--spacing-3);">
-              <button type="button" class="btn btn-secondary btn-lg" style="flex: 1;" onclick="prevStep(this)">Back</button>
-              <button type="submit" class="btn btn-accent btn-lg" style="flex: 1;">Complete Booking</button>
+            <div class="form-group">
+              <label class="form-label" for="customer-phone">Phone</label>
+              <input type="tel" class="form-control" id="customer-phone" autocomplete="tel" required>
+              <span class="form-error" id="phone-error" hidden>Please enter a phone number.</span>
+            </div>
+
+            <div style="display: flex; gap: var(--space-3); margin-top: var(--space-6);">
+              <button type="button" class="btn btn-secondary btn-lg" style="flex: 1;" data-nav="prev">Back</button>
+              <button type="submit" class="btn btn-accent btn-lg" style="flex: 1;">Confirm booking</button>
+            </div>
+          </fieldset>
+
+          <!-- Success -->
+          <div class="booking-step" data-step="3">
+            <div class="card" style="text-align: center; border-color: var(--color-success);">
+              <p style="font-size: var(--text-5xl); margin-bottom: var(--space-3);" aria-hidden="true">✓</p>
+              <h2 class="heading-4">Booking confirmed</h2>
+              <p class="body-base" style="color: var(--color-text-secondary);" id="confirmation-detail"></p>
+              <a href="/account" class="btn btn-primary" style="margin-top: var(--space-5);">View my appointments</a>
             </div>
           </div>
         </form>
       </div>
     </section>
-
-    <script>
-      function nextStep(btn) {
-        const form = btn.closest('form');
-        const currentStep = form.querySelector('.booking-step.active');
-        const nextStep = currentStep.nextElementSibling;
-        if (nextStep && nextStep.classList.contains('booking-step')) {
-          currentStep.classList.remove('active');
-          nextStep.classList.add('active');
-        }
-      }
-
-      function prevStep(btn) {
-        const form = btn.closest('form');
-        const currentStep = form.querySelector('.booking-step.active');
-        const prevStep = currentStep.previousElementSibling;
-        if (prevStep && prevStep.classList.contains('booking-step')) {
-          currentStep.classList.remove('active');
-          prevStep.classList.add('active');
-        }
-      }
-
-      // Handle form submission
-      document.querySelector('.booking-form')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Booking submitted! (Wireframe mode)');
-      });
-    </script>
   `;
+
+  initBookingFlow();
+}
+
+function initBookingFlow() {
+  const form = document.getElementById('booking-form');
+  if (!form) return;
+
+  let currentStep = 0;
+  const steps = [...form.querySelectorAll('.booking-step')];
+  const dots = [...document.querySelectorAll('.step-dot')];
+
+  // Seed the store with the pre-checked service.
+  const checked = form.querySelector('input[name="service"]:checked');
+  if (checked) store.setBookingService(checked.value);
+
+  // Date input: block past dates at the picker level.
+  const dateInput = document.getElementById('booking-date-input');
+  dateInput.min = new Date().toISOString().split('T')[0];
+
+  function showStep(index) {
+    currentStep = index;
+    steps.forEach((step, i) => step.classList.toggle('is-active', i === index));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-current', i === index);
+      dot.classList.toggle('is-done', i < index);
+    });
+    if (index === 2) renderSummary();
+    // Move focus to the newly revealed step for screen-reader users.
+    const heading = steps[index].querySelector('legend, h2');
+    if (heading) {
+      heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function setError(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.hidden = !show;
+    return !show;
+  }
+
+  function validateStep(index) {
+    if (index === 0) return true;
+
+    if (index === 1) {
+      const date = dateInput.value;
+      const time = document.getElementById('booking-time-input').value;
+      const dateOk = setError('date-error', !date);
+      const timeOk = setError('time-error', !time);
+      if (dateOk && timeOk) store.setBookingDateTime(date, time);
+      return dateOk && timeOk;
+    }
+
+    if (index === 2) {
+      const name = document.getElementById('customer-name').value.trim();
+      const email = document.getElementById('customer-email').value.trim();
+      const phone = document.getElementById('customer-phone').value.trim();
+      const nameOk = setError('name-error', !name);
+      const emailOk = setError('email-error', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+      const phoneOk = setError('phone-error', phone.replace(/\D/g, '').length < 7);
+      if (nameOk && emailOk && phoneOk) store.setCustomer(email, name, phone);
+      return nameOk && emailOk && phoneOk;
+    }
+
+    return true;
+  }
+
+  function renderSummary() {
+    const summary = store.getBookingSummary();
+    const el = document.getElementById('booking-summary');
+    if (!summary || !el) return;
+
+    const rows = [
+      ['Service', summary.service],
+      ['Date', formatDate(summary.date)],
+      ['Time', summary.time || '—'],
+      ['Duration', `${summary.duration} min`],
+      ['Total', `$${summary.price}`],
+    ];
+
+    el.innerHTML = rows.map(([label, value], i) => `
+      <div class="summary-row${i === rows.length - 1 ? ' summary-row--total' : ''}">
+        <dt>${label}</dt>
+        <dd>${value}</dd>
+      </div>
+    `).join('');
+  }
+
+  // Service selection keeps the store current.
+  form.querySelectorAll('input[name="service"]').forEach(input => {
+    input.addEventListener('change', e => store.setBookingService(e.target.value));
+  });
+
+  // Step navigation.
+  form.querySelectorAll('[data-nav]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dir = btn.dataset.nav;
+      if (dir === 'next') {
+        if (validateStep(currentStep)) showStep(currentStep + 1);
+      } else {
+        showStep(Math.max(0, currentStep - 1));
+      }
+    });
+  });
+
+  // Submit.
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!validateStep(2)) return;
+
+    const summary = store.getBookingSummary();
+    const detail = document.getElementById('confirmation-detail');
+    if (detail) {
+      detail.textContent =
+        `${summary.service} on ${formatDate(summary.date)} at ${summary.time}. ` +
+        `A confirmation is on its way to ${store.customer.email}.`;
+    }
+    showStep(3);
+  });
+
+  showStep(0);
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  // Parse as local date; `new Date('2026-08-05')` is UTC and can shift a day.
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString(undefined, {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  });
 }

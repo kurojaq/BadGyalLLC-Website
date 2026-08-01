@@ -74,18 +74,22 @@
   --font-serif: ui-serif, Georgia, "Times New Roman", serif;
   --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;
 
-  /* Font Sizes - Modular Scale (1.125 ratio) */
+  /* Font Sizes — modular scale (1.125 ratio).
+   * Body sizes are fixed. Display sizes are fluid: a fixed 72px headline is
+   * wider than a 375px phone viewport for a single long word, which forces
+   * horizontal page overflow. clamp() scales them down instead of overflowing.
+   * Lower bounds are chosen so the longest brand word fits at 320px. */
   --text-xs: 0.75rem;      /* 12px */
   --text-sm: 0.875rem;     /* 14px */
   --text-base: 1rem;       /* 16px */
   --text-lg: 1.125rem;     /* 18px */
   --text-xl: 1.25rem;      /* 20px */
   --text-2xl: 1.5rem;      /* 24px */
-  --text-3xl: 1.875rem;    /* 30px */
-  --text-4xl: 2.25rem;     /* 36px */
-  --text-5xl: 3rem;        /* 48px */
-  --text-6xl: 3.75rem;     /* 60px */
-  --text-7xl: 4.5rem;      /* 72px */
+  --text-3xl: clamp(1.5rem, 4vw, 1.875rem);    /* 24 → 30px */
+  --text-4xl: clamp(1.75rem, 5vw, 2.25rem);    /* 28 → 36px */
+  --text-5xl: clamp(2rem, 6vw, 3rem);          /* 32 → 48px */
+  --text-6xl: clamp(2.25rem, 8vw, 3.75rem);    /* 36 → 60px */
+  --text-7xl: clamp(2.5rem, 10vw, 4.5rem);     /* 40 → 72px */
 
   /* Font Weights */
   --weight-light: 300;

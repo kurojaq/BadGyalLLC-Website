@@ -2,13 +2,14 @@
  * Digital Atelier / 3D Studio Page
  */
 
-import { NailAtelier } from '../engine/three-d-engine.js';
-
+// The 3D engine (Three.js, ~500 kB) is loaded on demand so it never lands in
+// the entry bundle. Only visitors who open the atelier pay for it.
 let atelier3d = null;
 
 export function loadAtelierPage(outlet) {
   outlet.innerHTML = `
     <section class="section" style="padding: 0; min-height: 100vh;">
+      <h1 class="sr-only">Digital Atelier — design your nails in 3D</h1>
       <div class="container" style="display: grid; grid-template-columns: 1fr 400px; gap: var(--space-4); height: calc(100vh - 80px); max-width: 1400px; padding: var(--space-4);">
 
         <!-- 3D Viewport -->
@@ -163,14 +164,41 @@ export function loadAtelierPage(outlet) {
     </style>
   `;
 
-  // Initialize 3D engine after DOM is ready
-  setTimeout(() => {
-    const viewportElement = document.getElementById('atelier-viewport');
-    if (viewportElement) {
-      atelier3d = new NailAtelier(viewportElement);
-      setupAtelierControls();
-    }
-  }, 100);
+  bootAtelier();
+}
+
+async function bootAtelier() {
+  const viewport = document.getElementById('atelier-viewport');
+  if (!viewport) return;
+
+  viewport.innerHTML = `
+    <div class="atelier-loading">
+      <span class="loader" aria-hidden="true"></span>
+      <p class="body-sm">Loading 3D studio…</p>
+    </div>
+  `;
+
+  try {
+    const { NailAtelier } = await import('../engine/three-d-engine.js');
+
+    // The user may have navigated away while the chunk was downloading.
+    if (!document.body.contains(viewport)) return;
+
+    viewport.innerHTML = '';
+    atelier3d = new NailAtelier(viewport);
+    setupAtelierControls();
+  } catch (err) {
+    console.error('[atelier] 3D engine failed to load', err);
+    viewport.innerHTML = `
+      <div class="atelier-loading">
+        <p class="body-base">The 3D studio couldn't load on this device.</p>
+        <p class="body-sm" style="color: var(--color-text-secondary);">
+          You can still choose a service and book below.
+        </p>
+        <a href="/booking" class="btn btn-primary" style="margin-top: var(--space-4);">Continue to booking</a>
+      </div>
+    `;
+  }
 }
 
 function setupAtelierControls() {

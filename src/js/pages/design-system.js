@@ -15,7 +15,7 @@ export function loadDesignSystemPage(outlet) {
         <!-- Table of Contents -->
         <div class="card" style="background-color: var(--color-bg-secondary); margin-bottom: var(--space-8);">
           <h3 style="margin-bottom: var(--space-4);">Contents</h3>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-4);">
             <a href="#colors" class="underline-on-hover">Color Palette</a>
             <a href="#typography" class="underline-on-hover">Typography</a>
             <a href="#buttons" class="underline-on-hover">Buttons</a>
@@ -31,7 +31,7 @@ export function loadDesignSystemPage(outlet) {
 
           <div style="margin-bottom: var(--space-6);">
             <h3 class="heading-4">Primary Colors</h3>
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-3);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: var(--space-3);">
               ${['900', '800', '700', '600', '500'].map(shade => `
                 <div style="text-align: center;">
                   <div style="
@@ -49,7 +49,7 @@ export function loadDesignSystemPage(outlet) {
 
           <div style="margin-bottom: var(--space-6);">
             <h3 class="heading-4">Accent Colors (Gold)</h3>
-            <div style="display: grid; grid-template-columns: repeat(9, 1fr); gap: var(--space-3);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: var(--space-3);">
               ${['900', '800', '700', '600', '500', '400', '300', '200', '100'].map(shade => `
                 <div style="text-align: center;">
                   <div style="
@@ -68,7 +68,7 @@ export function loadDesignSystemPage(outlet) {
 
           <div>
             <h3 class="heading-4">Semantic Colors</h3>
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-4);">
               <div class="card">
                 <div style="
                   background-color: var(--color-success);
@@ -246,7 +246,7 @@ export function loadDesignSystemPage(outlet) {
         <div id="cards" style="margin-bottom: var(--space-8);">
           <h2 class="heading-2">Cards & Containers</h2>
 
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-4);">
             <div class="card">
               <h4>Basic Card</h4>
               <p style="color: var(--color-text-secondary);">Standard card with shadow and hover effect</p>

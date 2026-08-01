@@ -1,115 +1,81 @@
-/* Interaction Patterns & States */
+/* Interaction Patterns & States — flat CSS, no preprocessor required */
 
-/* Focus States */
+/* ---------- Focus ---------- */
+
 *:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* Button States */
+/* ---------- Buttons ---------- */
+
 button,
 .btn,
 a[role="button"] {
   position: relative;
   transition: all var(--transition-base);
   cursor: pointer;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.98);
-  }
 }
 
-/* Link States */
+button:disabled,
+.btn:disabled,
+a[role="button"][aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:active:not(:disabled),
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ---------- Links ---------- */
+
 a:not(.btn) {
   color: var(--color-text-primary);
   text-decoration: none;
   transition: color var(--transition-base);
-
-  &:hover {
-    color: var(--color-accent-600);
-  }
-
-  &:active {
-    color: var(--color-accent-700);
-  }
 }
 
-/* Form Input States */
+a:not(.btn):hover {
+  color: var(--color-accent-600);
+}
+
+a:not(.btn):active {
+  color: var(--color-accent-700);
+}
+
+/* ---------- Form inputs ---------- */
+
 input,
 textarea,
 select {
   transition: all var(--transition-base);
-
-  &:hover:not(:disabled) {
-    border-color: var(--color-border-dark);
-  }
-
-  &:focus {
-    border-color: var(--color-focus);
-    box-shadow: 0 0 0 3px var(--color-focus-ring);
-  }
-
-  &:disabled {
-    background-color: var(--color-bg-tertiary);
-    color: var(--color-text-tertiary);
-    cursor: not-allowed;
-  }
 }
 
-/* Checkbox & Radio */
-input[type="checkbox"],
-input[type="radio"] {
-  width: 1.25rem;
-  height: 1.25rem;
-  cursor: pointer;
-  accent-color: var(--color-accent-600);
-
-  &:hover {
-    transform: scale(1.05);
-  }
+input:hover:not(:disabled),
+textarea:hover:not(:disabled),
+select:hover:not(:disabled) {
+  border-color: var(--color-border-dark);
 }
 
-/* Range Slider */
-input[type="range"] {
-  cursor: pointer;
-
-  &::-webkit-slider-thumb {
-    appearance: none;
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 50%;
-    background-color: var(--color-accent-600);
-    cursor: pointer;
-    transition: all var(--transition-base);
-
-    &:hover {
-      background-color: var(--color-accent-700);
-      box-shadow: 0 0 8px var(--color-accent-600);
-    }
-  }
-
-  &::-moz-range-thumb {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 50%;
-    background-color: var(--color-accent-600);
-    cursor: pointer;
-    border: none;
-    transition: all var(--transition-base);
-
-    &:hover {
-      background-color: var(--color-accent-700);
-      box-shadow: 0 0 8px var(--color-accent-600);
-    }
-  }
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
-/* Select Dropdown */
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}
+
+/* ---------- Select dropdown ---------- */
+
 select {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
@@ -119,203 +85,239 @@ select {
   padding-right: 2.5rem;
 }
 
-/* Checkbox Styling */
+/* ---------- Checkbox ---------- */
+
 input[type="checkbox"] {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   width: 1.25rem;
   height: 1.25rem;
   border: 2px solid var(--color-border-medium);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   background-color: var(--color-bg-primary);
   cursor: pointer;
   position: relative;
+  flex-shrink: 0;
   transition: all var(--transition-base);
-
-  &:checked {
-    background-color: var(--color-accent-600);
-    border-color: var(--color-accent-600);
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100%;
-  }
 }
 
-/* Radio Styling */
+input[type="checkbox"]:hover:not(:disabled) {
+  border-color: var(--color-accent-600);
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--color-accent-600);
+  border-color: var(--color-accent-600);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+/* ---------- Radio ---------- */
+
 input[type="radio"] {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   width: 1.25rem;
   height: 1.25rem;
   border: 2px solid var(--color-border-medium);
   border-radius: 50%;
   background-color: var(--color-bg-primary);
   cursor: pointer;
+  flex-shrink: 0;
   transition: all var(--transition-base);
-
-  &:checked {
-    border-color: var(--color-accent-600);
-    box-shadow: inset 0 0 0 3px var(--color-bg-primary), inset 0 0 0 5px var(--color-accent-600);
-  }
-
-  &:hover {
-    border-color: var(--color-accent-600);
-  }
 }
 
-/* Hover Effects */
-.hover-lift {
-  transition: all var(--transition-base);
+input[type="radio"]:hover:not(:disabled) {
+  border-color: var(--color-accent-600);
+}
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-  }
+input[type="radio"]:checked {
+  border-color: var(--color-accent-600);
+  box-shadow: inset 0 0 0 3px var(--color-bg-primary), inset 0 0 0 5px var(--color-accent-600);
+}
+
+/* ---------- Range slider ---------- */
+
+input[type="range"] {
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--color-border-light);
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--color-accent-600);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: var(--color-accent-700);
+  box-shadow: 0 0 0 6px rgba(201, 169, 97, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-accent-600);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background-color: var(--color-accent-700);
+  box-shadow: 0 0 0 6px rgba(201, 169, 97, 0.2);
+}
+
+/* ---------- Color input ---------- */
+
+input[type="color"] {
+  padding: var(--space-1);
+  cursor: pointer;
+}
+
+/* ---------- Hover effect utilities ---------- */
+
+.hover-lift {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .hover-fade {
   transition: opacity var(--transition-base);
+}
 
-  &:hover {
-    opacity: 0.8;
-  }
+.hover-fade:hover {
+  opacity: 0.8;
 }
 
 .hover-scale {
   transition: transform var(--transition-base);
+}
 
-  &:hover {
-    transform: scale(1.05);
-  }
+.hover-scale:hover {
+  transform: scale(1.05);
 }
 
 .hover-accent {
   transition: color var(--transition-base);
-
-  &:hover {
-    color: var(--color-accent-600);
-  }
 }
 
-/* Smooth Scroll */
-html {
-  scroll-behavior: smooth;
+.hover-accent:hover {
+  color: var(--color-accent-600);
 }
 
-/* Selection Styling */
+/* ---------- Underline on hover ---------- */
+
+.underline-on-hover {
+  position: relative;
+  text-decoration: none;
+}
+
+.underline-on-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent-600);
+  transition: width var(--transition-base);
+}
+
+.underline-on-hover:hover::after {
+  width: 100%;
+}
+
+/* ---------- Selection ---------- */
+
 ::selection {
   background-color: var(--color-accent-600);
-  color: white;
+  color: #ffffff;
 }
 
-::-moz-selection {
-  background-color: var(--color-accent-600);
-  color: white;
-}
+/* ---------- Cursor utilities ---------- */
 
-/* Cursor Styles */
-.cursor-pointer {
-  cursor: pointer;
-}
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-text { cursor: text; }
+.cursor-move { cursor: move; }
+.cursor-not-allowed { cursor: not-allowed; }
 
-.cursor-default {
-  cursor: default;
-}
+/* ---------- State utilities ---------- */
 
-.cursor-text {
-  cursor: text;
-}
-
-.cursor-move {
-  cursor: move;
-}
-
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
-
-/* Disabled Opacity */
 [disabled],
 .disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Loading State */
 .is-loading {
   pointer-events: none;
   opacity: 0.6;
 }
 
-/* Active State */
 .is-active {
   color: var(--color-accent-600);
   font-weight: var(--weight-semibold);
 }
 
-/* Skeleton Loading */
+/* ---------- Skeleton loading ---------- */
+
 .skeleton {
-  background: linear-gradient(90deg, var(--color-bg-tertiary) 25%, var(--color-bg-secondary) 50%, var(--color-bg-tertiary) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite;
 }
 
 @keyframes skeleton-loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-/* Hover/Focus Underline */
-.underline-on-hover {
-  position: relative;
-  text-decoration: none;
+/* ---------- Tooltip ---------- */
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-accent-600);
-    transition: width var(--transition-base);
-  }
-
-  &:hover::after {
-    width: 100%;
-  }
-}
-
-/* Tooltip */
 [data-tooltip] {
   position: relative;
+}
 
-  &::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
-    background-color: var(--color-gray-900);
-    color: white;
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-xs);
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--transition-base);
-    z-index: var(--z-tooltip);
-  }
+[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background-color: var(--color-gray-900);
+  color: #ffffff;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+  z-index: var(--z-tooltip);
+}
 
-  &:hover::before {
-    opacity: 1;
-  }
+[data-tooltip]:hover::before {
+  opacity: 1;
 }
