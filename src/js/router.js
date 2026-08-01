@@ -10,6 +10,7 @@ import { loadBookingPage } from './pages/booking.js';
 import { loadShopPage } from './pages/shop.js';
 import { loadAccountPage } from './pages/account.js';
 import { loadDashboardPage } from './pages/dashboard.js';
+import { loadDesignSystemPage } from './pages/design-system.js';
 import { load404Page } from './pages/404.js';
 
 const routes = {
@@ -20,6 +21,7 @@ const routes = {
   '/shop': loadShopPage,
   '/account': loadAccountPage,
   '/dashboard': loadDashboardPage,
+  '/design-system': loadDesignSystemPage,
 };
 
 class Router {

@@ -1,0 +1,321 @@
+/* Interaction Patterns & States */
+
+/* Focus States */
+*:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Button States */
+button,
+.btn,
+a[role="button"] {
+  position: relative;
+  transition: all var(--transition-base);
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+/* Link States */
+a:not(.btn) {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-base);
+
+  &:hover {
+    color: var(--color-accent-600);
+  }
+
+  &:active {
+    color: var(--color-accent-700);
+  }
+}
+
+/* Form Input States */
+input,
+textarea,
+select {
+  transition: all var(--transition-base);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-border-dark);
+  }
+
+  &:focus {
+    border-color: var(--color-focus);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+  }
+
+  &:disabled {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-tertiary);
+    cursor: not-allowed;
+  }
+}
+
+/* Checkbox & Radio */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--color-accent-600);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Range Slider */
+input[type="range"] {
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background-color: var(--color-accent-600);
+    cursor: pointer;
+    transition: all var(--transition-base);
+
+    &:hover {
+      background-color: var(--color-accent-700);
+      box-shadow: 0 0 8px var(--color-accent-600);
+    }
+  }
+
+  &::-moz-range-thumb {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background-color: var(--color-accent-600);
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition-base);
+
+    &:hover {
+      background-color: var(--color-accent-700);
+      box-shadow: 0 0 8px var(--color-accent-600);
+    }
+  }
+}
+
+/* Select Dropdown */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--color-border-medium);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-primary);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-base);
+
+  &:checked {
+    background-color: var(--color-accent-600);
+    border-color: var(--color-accent-600);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+}
+
+/* Radio Styling */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--color-border-medium);
+  border-radius: 50%;
+  background-color: var(--color-bg-primary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+
+  &:checked {
+    border-color: var(--color-accent-600);
+    box-shadow: inset 0 0 0 3px var(--color-bg-primary), inset 0 0 0 5px var(--color-accent-600);
+  }
+
+  &:hover {
+    border-color: var(--color-accent-600);
+  }
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: all var(--transition-base);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.hover-fade {
+  transition: opacity var(--transition-base);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.hover-scale {
+  transition: transform var(--transition-base);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.hover-accent {
+  transition: color var(--transition-base);
+
+  &:hover {
+    color: var(--color-accent-600);
+  }
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection Styling */
+::selection {
+  background-color: var(--color-accent-600);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--color-accent-600);
+  color: white;
+}
+
+/* Cursor Styles */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.cursor-text {
+  cursor: text;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+/* Disabled Opacity */
+[disabled],
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading State */
+.is-loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Active State */
+.is-active {
+  color: var(--color-accent-600);
+  font-weight: var(--weight-semibold);
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-bg-tertiary) 25%, var(--color-bg-secondary) 50%, var(--color-bg-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Hover/Focus Underline */
+.underline-on-hover {
+  position: relative;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent-600);
+    transition: width var(--transition-base);
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+/* Tooltip */
+[data-tooltip] {
+  position: relative;
+
+  &::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background-color: var(--color-gray-900);
+    color: white;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+    z-index: var(--z-tooltip);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+}
