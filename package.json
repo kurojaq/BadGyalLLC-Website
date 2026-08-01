@@ -1,0 +1,23 @@
+{
+  "name": "badgyallc-website",
+  "version": "0.1.0",
+  "description": "Luxury nail artistry platform with 3D customization studio",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "three": "^r128",
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "vite": "^4.3.0",
+    "@vitejs/plugin-vue": "^4.2.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.40.0"
+  }
+}
