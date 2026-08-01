@@ -1,12 +1,16 @@
 /**
- * Booking Page
+ * Booking Page - Enhanced Multi-Step Booking System
  */
+
+import { store } from '../store.js';
 
 export function loadBookingPage(outlet) {
   outlet.innerHTML = `
     <section class="section">
       <div class="container container-sm">
-        <h1 class="section-title" style="text-align: center;">Book Your Appointment</h1>
+        <h1 class="heading-2" style="text-align: center; margin-bottom: var(--space-8);">
+          Book Your Appointment
+        </h1>
 
         <form class="booking-form">
           <!-- Step 1: Service Selection -->
