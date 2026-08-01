@@ -11,10 +11,12 @@ import { loadShopPage } from './pages/shop.js';
 import { loadAccountPage } from './pages/account.js';
 import { loadDashboardPage } from './pages/dashboard.js';
 import { loadDesignSystemPage } from './pages/design-system.js';
+import { loadAboutPage } from './pages/about.js';
 import { load404Page } from './pages/404.js';
 
 const routes = {
   '/': loadHomePage,
+  '/about': loadAboutPage,
   '/discovery': loadDiscoveryPage,
   '/atelier': loadAtelierPage,
   '/booking': loadBookingPage,

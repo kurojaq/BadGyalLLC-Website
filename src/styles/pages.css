@@ -83,7 +83,7 @@
 .hero {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: var(--color-text-inverse);
-  padding: var(--spacing-16) var(--spacing-4);
+  padding: var(--space-16) var(--space-4);
   text-align: center;
   min-height: 500px;
   display: flex;
@@ -92,17 +92,44 @@
   align-items: center;
 }
 
+.hero-luxury {
+  background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  padding: var(--space-12) var(--space-4) var(--space-16);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.service-card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.service-card:hover {
+  border-color: var(--color-accent-600);
+  box-shadow: var(--shadow-luxury-lg);
+  transform: translateY(-4px);
+}
+
+/* Hero Typography */
+
 .hero-title {
-  font-size: var(--font-size-h1);
-  margin-bottom: var(--spacing-4);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--text-7xl);
+  margin-bottom: var(--space-4);
+  font-weight: var(--weight-bold);
 }
 
 .hero-subtitle {
-  font-size: var(--font-size-h4);
-  margin-bottom: var(--spacing-6);
-  color: var(--color-accent);
-  font-weight: var(--font-weight-normal);
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-6);
+  color: var(--color-accent-600);
+  font-weight: var(--weight-normal);
 }
 
 .hero-actions {
