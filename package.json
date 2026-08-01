@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "//postbuild": "GitHub Pages has no rewrite rules: a direct hit on /about returns a real 404. Serving the app shell as 404.html lets the client router resolve the URL instead.",
+    "postbuild": "node -e \"require('fs').copyFileSync('dist/index.html','dist/404.html')\"",
     "preview": "vite preview"
   },
   "dependencies": {

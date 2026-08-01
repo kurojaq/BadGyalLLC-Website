@@ -26,6 +26,26 @@ const routes = {
   '/design-system': loadDesignSystemPage,
 };
 
+/**
+ * Deployment base, e.g. '/' locally or '/BadGyalLLC-Website/' on GitHub Pages.
+ * Routes are declared at the root ('/about'), so every incoming URL has the
+ * base stripped before matching and re-added before it reaches the address bar.
+ */
+const BASE = (import.meta.env?.BASE_URL || '/').replace(/\/+$/, '');
+
+/** '/BadGyalLLC-Website/about' -> '/about' */
+function toRoute(pathname) {
+  let path = pathname.split('?')[0].split('#')[0];
+  if (BASE && path.startsWith(BASE)) path = path.slice(BASE.length);
+  if (path.length > 1) path = path.replace(/\/+$/, '');
+  return path === '' ? '/' : path;
+}
+
+/** '/about' -> '/BadGyalLLC-Website/about' */
+function toUrl(route) {
+  return route === '/' ? `${BASE}/` : `${BASE}${route}`;
+}
+
 class Router {
   constructor(routes) {
     this.routes = routes;
@@ -52,10 +72,22 @@ class Router {
       const link = e.target.closest('a[href]');
       if (!link || link.hasAttribute('target') || link.hasAttribute('download')) return;
 
-      const url = new URL(link.href, window.location.origin);
-      if (url.origin !== window.location.origin) return;
+      const raw = link.getAttribute('href');
 
       // In-page anchors (#section) scroll natively.
+      if (raw.startsWith('#')) return;
+
+      // Root-relative hrefs in our own markup ("/about") are route paths, not
+      // origin-absolute URLs. Resolving them against the origin would drop the
+      // deployment base, so hand them to the router as-is.
+      if (raw.startsWith('/')) {
+        e.preventDefault();
+        this.navigate(raw);
+        return;
+      }
+
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin) return;
       if (url.pathname === window.location.pathname && url.hash) return;
 
       e.preventDefault();
@@ -63,19 +95,17 @@ class Router {
     });
   }
 
-  navigate(path) {
-    // Normalize: strip query/hash, drop any trailing slash except root.
-    path = path.split('?')[0].split('#')[0];
-    if (path.length > 1) path = path.replace(/\/+$/, '');
-    if (path === '') path = '/';
+  navigate(pathname) {
+    const path = toRoute(pathname);
 
     if (this.currentPath === path) return;
 
     this.currentPath = path;
 
     // Update browser history
-    if (window.location.pathname !== path) {
-      window.history.pushState({ path }, '', path);
+    const href = toUrl(path);
+    if (window.location.pathname !== href) {
+      window.history.pushState({ path }, '', href);
     }
 
     // Load route
