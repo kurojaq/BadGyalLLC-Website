@@ -180,7 +180,18 @@ For premium elevated components:
 --easing-in       → cubic-bezier(0.4, 0, 1, 1) (accelerate)
 --easing-out      → cubic-bezier(0, 0, 0.2, 1) (decelerate)
 --easing-in-out   → cubic-bezier(0.4, 0, 0.2, 1) (both)
---easing-smooth   → cubic-bezier(0.34, 1.56, 0.64, 1) (elastic)
+--easing-emphasis → cubic-bezier(0.16, 1, 0.3, 1) (exponential decelerate)
+```
+
+**No springs.** Easing curves in this system never overshoot past 1. A bouncy
+control point reads playful and dated; it contradicts "luxury through restraint."
+Emphasis moves get a longer, exponential settle instead — fast departure, slow
+arrival.
+
+**Animate `transform` and `opacity` only.** Both are compositor properties.
+Animating `width`, `height`, `padding`, `margin`, or `top`/`left` forces layout
+on every frame. To grow a bar or underline, lay it out at full size and
+`scaleX()` from 0.
 ```
 
 ### Predefined Transitions
@@ -188,19 +199,26 @@ For premium elevated components:
 --transition-fast    → 100ms ease-out
 --transition-base    → 200ms ease-out (most common)
 --transition-slow    → 300ms ease-out
---transition-luxury  → 500ms smooth (special effects)
+--transition-luxury  → 500ms emphasis (deliberate, large-surface moves)
 ```
 
 ### Usage
 ```css
-/* Standard interaction */
+/* Standard interaction — name the properties, don't use `all` */
 button {
-  transition: all var(--transition-base);
+  transition: background-color var(--transition-base),
+              transform var(--transition-base);
 }
 
-/* Luxury effect */
-.card:hover {
-  transition: all var(--transition-luxury);
+/* Growing an underline: scale a full-width bar, never animate width */
+.link::after {
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--transition-base);
+}
+.link:hover::after {
+  transform: scaleX(1);
 }
 ```
 
