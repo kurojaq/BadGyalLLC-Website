@@ -55,6 +55,8 @@ export function loadAtelierPage(outlet) {
               <button class="btn btn-secondary btn-sm" data-shape="oval" style="flex: 1;">Oval</button>
               <button class="btn btn-secondary btn-sm" data-shape="almond" style="flex: 1;">Almond</button>
               <button class="btn btn-secondary btn-sm" data-shape="square" style="flex: 1;">Square</button>
+              <button class="btn btn-secondary btn-sm" data-shape="coffin" style="flex: 1;">Coffin</button>
+              <button class="btn btn-secondary btn-sm" data-shape="stiletto" style="flex: 1;">Stiletto</button>
             </div>
           </div>
 
@@ -240,7 +242,7 @@ function setupAtelierControls() {
       document.querySelectorAll('[data-shape]').forEach(b => b.classList.add('btn-secondary'));
       e.target.classList.remove('btn-secondary');
       e.target.classList.add('btn-primary');
-      atelier3d.customization.shape = e.target.dataset.shape;
+      atelier3d.updateShape(e.target.dataset.shape);
     });
   });
 

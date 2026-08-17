@@ -4,6 +4,7 @@
  */
 
 import * as THREE from 'three';
+import { createNailGeometry, isNailShape } from './nail-geometry.js';
 
 class NailAtelier {
   constructor(containerElement) {
@@ -14,7 +15,7 @@ class NailAtelier {
     this.nails = [];
     this.light = null;
     this.customization = {
-      color: '#c9a961',
+      color: '#ff168f',
       finish: 'gloss',
       shape: 'oval',
       length: 0.6,
@@ -100,33 +101,32 @@ class NailAtelier {
 
   createNails() {
     const nailPositions = [
-      { x: -0.3, name: 'Thumb' },
-      { x: -0.15, name: 'Index' },
-      { x: 0, name: 'Middle' },
-      { x: 0.15, name: 'Ring' },
-      { x: 0.3, name: 'Pinky' },
+      { x: -0.3, y: 0.13, width: 0.17, name: 'Thumb' },
+      { x: -0.15, y: 0.17, width: 0.14, name: 'Index' },
+      { x: 0, y: 0.19, width: 0.15, name: 'Middle' },
+      { x: 0.15, y: 0.17, width: 0.14, name: 'Ring' },
+      { x: 0.3, y: 0.13, width: 0.12, name: 'Pinky' },
     ];
 
     nailPositions.forEach((pos) => {
-      const nail = this.createNail(pos.x);
+      const nail = this.createNail(pos);
       this.nails.push({ mesh: nail, position: pos });
       this.scene.add(nail);
     });
   }
 
-  createNail(x) {
-    const length = 0.4 + this.customization.length * 0.3;
-    const width = 0.15;
-
-    const geometry = new THREE.BoxGeometry(width, length, 0.05);
-    geometry.translate(0, length / 2 - 0.1, 0.2);
-
+  createNail(position) {
+    const length = 0.34 + this.customization.length * 0.42;
+    const geometry = createNailGeometry({
+      width: position.width,
+      length,
+      shape: this.customization.shape,
+    });
     // Create material based on finish
     const material = this.createNailMaterial();
 
     const nail = new THREE.Mesh(geometry, material);
-    nail.position.x = x;
-    nail.position.y = 0.15;
+    nail.position.set(position.x, position.y, 0.2);
     nail.castShadow = true;
     nail.receiveShadow = true;
 
@@ -244,14 +244,27 @@ class NailAtelier {
 
   updateLength(length) {
     this.customization.length = Math.max(0, Math.min(1, length));
-    const nailLength = 0.4 + this.customization.length * 0.3;
+    this.rebuildNailGeometry();
+    this.render();
+  }
+
+  updateShape(shape) {
+    if (!isNailShape(shape)) return;
+    this.customization.shape = shape;
+    this.rebuildNailGeometry();
+    this.render();
+  }
+
+  rebuildNailGeometry() {
+    const length = 0.34 + this.customization.length * 0.42;
     this.nails.forEach((nail) => {
       nail.mesh.geometry.dispose();
-      const geometry = new THREE.BoxGeometry(0.15, nailLength, 0.05);
-      geometry.translate(0, nailLength / 2 - 0.1, 0.2);
-      nail.mesh.geometry = geometry;
+      nail.mesh.geometry = createNailGeometry({
+        width: nail.position.width,
+        length,
+        shape: this.customization.shape,
+      });
     });
-    this.render();
   }
 
   getCustomization() {
@@ -263,6 +276,7 @@ class NailAtelier {
     if (config.color) this.updateColor(config.color);
     if (config.finish) this.updateFinish(config.finish);
     if (config.length !== undefined) this.updateLength(config.length);
+    if (config.shape) this.updateShape(config.shape);
   }
 
   animate() {
