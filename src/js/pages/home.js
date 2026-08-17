@@ -11,7 +11,7 @@ export function loadHomePage(outlet) {
       <div class="gallery-hero__copy">
         <p class="eyebrow">The digital beauty gallery</p>
         <div class="gallery-logo-lockup">
-          <img src="assets/brand/badgyallc-logo.jpg" alt="BadGyalLLC">
+          <img src="assets/brand/badgyallc-logo.png" alt="BadGyalLLC">
         </div>
         <p class="gallery-hero__tagline">Beauty. Bold. Baddie.<br><em>All in one gallery.</em></p>
         <p class="body-lg gallery-hero__intro">A creative world for expressive nails, personal style, and designs that refuse to blend in.</p>
