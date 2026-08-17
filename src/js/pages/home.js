@@ -4,39 +4,48 @@
 
 export function loadHomePage(outlet) {
   outlet.innerHTML = `
-    <!-- Hero Section -->
-    <section class="hero-luxury">
-      <div class="container">
-        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-          <h1 class="display-1" style="margin-bottom: var(--space-5); color: var(--color-primary-900);">
-            BadGyalLLC
-          </h1>
-          <p class="heading-4" style="color: var(--color-text-secondary); margin-bottom: var(--space-8); font-weight: 300;">
-            Luxury Nail Artistry & Creative Digital Atelier
-          </p>
-          <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; margin-bottom: var(--space-8);">
-            <a href="/discovery" class="btn btn-primary btn-lg hover-lift">Explore Portfolio</a>
-            <a href="/atelier" class="btn btn-accent btn-lg hover-lift">Design Nails</a>
-          </div>
-          <p class="body-sm" style="color: var(--color-text-tertiary);">
-            From inspiration to creation • Luxury at every step
-          </p>
+    <!-- BadGyallery hero -->
+    <section class="gallery-hero">
+      <div class="gallery-hero__sparkle sparkle-one">✦</div>
+      <div class="gallery-hero__sparkle sparkle-two">✧</div>
+      <div class="gallery-hero__copy">
+        <p class="eyebrow">The digital beauty gallery</p>
+        <div class="gallery-logo-lockup">
+          <img src="assets/brand/badgyallc-logo.jpg" alt="BadGyalLLC">
         </div>
+        <p class="gallery-hero__tagline">Beauty. Bold. Baddie.<br><em>All in one gallery.</em></p>
+        <p class="body-lg gallery-hero__intro">A creative world for expressive nails, personal style, and designs that refuse to blend in.</p>
+        <div class="gallery-hero__actions">
+          <a href="/discovery" class="btn btn-primary btn-lg">Enter the gallery <span aria-hidden="true">→</span></a>
+          <a href="/atelier" class="btn btn-outline-light btn-lg">Make a design</a>
+        </div>
+      </div>
+      <div class="gallery-hero__poster" aria-hidden="true">
+        <span class="poster-sticker poster-sticker--top">☆ NEW DROP ☆</span>
+        <span class="poster-nail">💅</span>
+        <span class="poster-phone">☎</span>
+        <span class="poster-caption">made for<br>the internet</span>
+        <span class="poster-url">badgyallery.exe</span>
       </div>
     </section>
 
+    <section class="marquee-strip" aria-label="Brand themes">
+      <div class="marquee-strip__track">NAIL ART <span>✦</span> PERSONAL STYLE <span>✦</span> DIGITAL ATELIER <span>✦</span> CREATIVE CARE <span>✦</span> NAIL ART <span>✦</span> PERSONAL STYLE <span>✦</span></div>
+    </section>
+
     <!-- Services Overview -->
-    <section class="section" style="background-color: var(--color-bg-secondary);">
+    <section class="section gallery-section gallery-section--blush">
       <div class="container">
         <div class="section-header">
-          <h2 class="heading-2">Services</h2>
+          <p class="eyebrow">Pick your portal</p>
+          <h2 class="heading-2">Choose your kind of pretty.</h2>
           <p class="body-lg" style="color: var(--color-text-secondary);">
-            Premium nail artistry tailored to your vision
+            Start with care, go full art, or build the set that only exists in your head.
           </p>
         </div>
 
         <div class="grid grid-cols-3" style="gap: var(--space-6);">
-          <div class="service-card" style="padding: var(--space-6);">
+          <div class="service-card thematic-card thematic-card--pink" style="padding: var(--space-6);">
             <div style="
               font-size: 3rem;
               margin-bottom: var(--space-4);
@@ -48,7 +57,7 @@ export function loadHomePage(outlet) {
             <p class="label" style="color: var(--color-accent-600);">From $65</p>
           </div>
 
-          <div class="service-card" style="padding: var(--space-6);">
+          <div class="service-card thematic-card thematic-card--violet" style="padding: var(--space-6);">
             <div style="
               font-size: 3rem;
               margin-bottom: var(--space-4);
@@ -60,7 +69,7 @@ export function loadHomePage(outlet) {
             <p class="label" style="color: var(--color-accent-600);">From $85</p>
           </div>
 
-          <div class="service-card" style="padding: var(--space-6);">
+          <div class="service-card thematic-card thematic-card--ink" style="padding: var(--space-6);">
             <div style="
               font-size: 3rem;
               margin-bottom: var(--space-4);
@@ -76,10 +85,11 @@ export function loadHomePage(outlet) {
     </section>
 
     <!-- Featured Portfolio -->
-    <section class="section">
+    <section class="section gallery-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="heading-2">Featured Designs</h2>
+          <p class="eyebrow">From the archive</p>
+          <h2 class="heading-2">Currently in the gallery.</h2>
           <p class="body-lg" style="color: var(--color-text-secondary); margin-bottom: var(--space-6);">
             Curated collection of our most coveted creations
           </p>
@@ -94,7 +104,7 @@ export function loadHomePage(outlet) {
             { name: 'Nature Inspired', category: 'Manicure', emoji: '🌿' },
             { name: 'Celestial', category: 'Nail Art', emoji: '✨' },
           ].map((design, i) => `
-            <div class="portfolio-item hover-lift">
+            <div class="portfolio-item gallery-tile hover-lift">
               <div class="portfolio-image" style="font-size: 2rem;">
                 ${design.emoji}
               </div>
@@ -118,39 +128,40 @@ export function loadHomePage(outlet) {
     </section>
 
     <!-- Why BadGyalLLC -->
-    <section class="section" style="background-color: var(--color-primary-900); color: white;">
+    <section class="section gallery-section gallery-section--dark" style="color: white;">
       <div class="container">
         <div class="section-header">
-          <h2 class="heading-2" style="color: white; margin-bottom: var(--space-3);">Why BadGyalLLC?</h2>
+          <p class="eyebrow eyebrow--light">The BadGyal code</p>
+          <h2 class="heading-2" style="color: white; margin-bottom: var(--space-3);">Pretty is a power move.</h2>
           <p class="heading-5" style="color: var(--color-accent-400); font-weight: 300;">
-            Experience the intersection of luxury, creativity, and technology
+            Care, culture, and creativity in every set.
           </p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6);">
           <div style="padding: var(--space-6);">
-            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">Expert Artistry</h4>
+            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">01 / Expert artistry</h4>
             <p class="body-base" style="color: rgba(255,255,255,0.9);">
               Licensed professional with years of experience in avant-garde nail design and wellness-focused care.
             </p>
           </div>
 
           <div style="padding: var(--space-6);">
-            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">Digital Innovation</h4>
+            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">02 / Digital play</h4>
             <p class="body-base" style="color: rgba(255,255,255,0.9);">
               3D atelier lets you design, preview, and visualize your nails before the appointment.
             </p>
           </div>
 
           <div style="padding: var(--space-6);">
-            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">Personal Service</h4>
+            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">03 / Personal care</h4>
             <p class="body-base" style="color: rgba(255,255,255,0.9);">
               Customized experience respecting your preferences, health needs, and creative vision.
             </p>
           </div>
 
           <div style="padding: var(--space-6);">
-            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">Luxury Positioning</h4>
+            <h4 class="heading-5" style="color: var(--color-accent-400); margin-bottom: var(--space-2);">04 / Main-character energy</h4>
             <p class="body-base" style="color: rgba(255,255,255,0.9);">
               Premium, curated experience over high-volume commodity service.
             </p>
@@ -160,20 +171,14 @@ export function loadHomePage(outlet) {
     </section>
 
     <!-- Digital Atelier CTA -->
-    <section class="section">
+    <section class="section gallery-section">
       <div class="container">
-        <div style="
-          background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
-          padding: var(--space-8);
-          border-radius: var(--radius-xl);
-          text-align: center;
-          color: white;
-        ">
+        <div class="atelier-banner">
           <h2 class="heading-2" style="color: white; margin-bottom: var(--space-3);">
-            Ready to Create?
+            Enter the Sparkle Lab.
           </h2>
           <p class="heading-5" style="color: var(--color-accent-300); margin-bottom: var(--space-6); font-weight: 300;">
-            Use our 3D studio to design your perfect nails
+            Build a mood, choose a shape, and make the fantasy tangible.
           </p>
           <a href="/atelier" class="btn btn-accent btn-lg">Open Digital Atelier</a>
         </div>
@@ -181,10 +186,11 @@ export function loadHomePage(outlet) {
     </section>
 
     <!-- CTA Section -->
-    <section class="section" style="background-color: var(--color-bg-secondary);">
+    <section class="section gallery-section gallery-section--blush">
       <div class="container container-sm">
         <div style="text-align: center;">
-          <h2 class="heading-3" style="margin-bottom: var(--space-4);">Book Your Appointment</h2>
+          <p class="eyebrow">Your next era starts here</p>
+          <h2 class="heading-3" style="margin-bottom: var(--space-4);">Ready for your close-up?</h2>
           <p class="body-base" style="color: var(--color-text-secondary); margin-bottom: var(--space-6);">
             Start with discovery, design in our atelier, and book your perfect appointment.
           </p>

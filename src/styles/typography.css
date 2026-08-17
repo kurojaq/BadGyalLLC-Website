@@ -4,20 +4,22 @@
 
 /* Display Level - Hero/Page Titles */
 .display-1 {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: var(--text-7xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tighter);
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
   margin-bottom: var(--space-6);
 }
 
 .display-2 {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: var(--text-6xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tighter);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   margin-bottom: var(--space-5);
 }
 

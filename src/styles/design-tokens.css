@@ -13,16 +13,25 @@
   --color-primary-600: #3a3a3a;
   --color-primary-500: #4a4a4a;
 
-  /* Accent - Gold luxury */
-  --color-accent-900: #6b5d42;
-  --color-accent-800: #8b7d62;
-  --color-accent-700: #a89d82;
-  --color-accent-600: #c9a961;
-  --color-accent-500: #d4b574;
-  --color-accent-400: #e8d4b0;
-  --color-accent-300: #f0e4d0;
-  --color-accent-200: #f5ede2;
-  --color-accent-100: #faf7f2;
+  /* Accent - BadGyallery pink / violet */
+  --color-accent-900: #6a0752;
+  --color-accent-800: #94106f;
+  --color-accent-700: #c3168f;
+  --color-accent-600: #f00086;
+  --color-accent-500: #ff299e;
+  --color-accent-400: #ff70bd;
+  --color-accent-300: #ffb5df;
+  --color-accent-200: #ffd9ef;
+  --color-accent-100: #fff0f8;
+
+  /* Thematic brand colors */
+  --color-brand-pink: #ff168f;
+  --color-brand-hot-pink: #ff006e;
+  --color-brand-violet: #8d35ff;
+  --color-brand-lavender: #c9a7ff;
+  --color-brand-blush: #fff5fb;
+  --color-brand-ink: #151018;
+  --color-brand-chrome: #e8e5ef;
 
   /* Neutrals */
   --color-gray-900: #111111;
@@ -44,20 +53,20 @@
 
   /* Backgrounds */
   --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f9f9f9;
-  --color-bg-tertiary: #f0f0f0;
+  --color-bg-secondary: #fff5fb;
+  --color-bg-tertiary: #f6eafa;
   --color-bg-dark: #1a1a1a;
   --color-bg-dark-secondary: #2a2a2a;
 
   /* Text */
-  --color-text-primary: #111111;
-  --color-text-secondary: #666666;
-  --color-text-tertiary: #999999;
+  --color-text-primary: #151018;
+  --color-text-secondary: #635968;
+  --color-text-tertiary: #8e8294;
   --color-text-inverse: #ffffff;
 
   /* Borders */
-  --color-border-light: #e8e8e8;
-  --color-border-medium: #d0d0d0;
+  --color-border-light: #eadde8;
+  --color-border-medium: #d8bfd2;
   --color-border-dark: #b0b0b0;
 
   /* States */
@@ -72,6 +81,7 @@
   /* Font Families */
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", system-ui, sans-serif;
   --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;
 
   /* Font Sizes — modular scale (1.125 ratio).

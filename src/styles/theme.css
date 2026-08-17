@@ -18,6 +18,9 @@
   --color-accent-dark: var(--color-accent-800);
   --color-accent-light: var(--color-accent-400);
 
+  --color-brand: var(--color-brand-pink);
+  --color-brand-alt: var(--color-brand-violet);
+
   --color-background: var(--color-bg-primary);
   --color-background-alt: var(--color-bg-secondary);
   --color-background-dark: var(--color-bg-dark);
