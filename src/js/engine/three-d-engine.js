@@ -4,6 +4,7 @@
  */
 
 import * as THREE from 'three';
+import { createProceduralHand } from './hand-model.js';
 import { createNailGeometry, isNailShape } from './nail-geometry.js';
 
 class NailAtelier {
@@ -13,6 +14,7 @@ class NailAtelier {
     this.camera = null;
     this.renderer = null;
     this.nails = [];
+    this.handModel = null;
     this.light = null;
     this.customization = {
       color: '#ff168f',
@@ -84,34 +86,16 @@ class NailAtelier {
   }
 
   createHand() {
-    // Create a simple hand geometry with nails
-    const handGeometry = new THREE.BoxGeometry(0.8, 0.5, 0.3);
-    const handMaterial = new THREE.MeshStandardMaterial({
-      color: 0xe8d4b0, // Skin tone
-      metalness: 0.1,
-      roughness: 0.8,
-    });
-    const hand = new THREE.Mesh(handGeometry, handMaterial);
-    hand.position.y = -0.3;
-    this.scene.add(hand);
-
-    // Create nail beds
-    this.createNails();
+    const model = createProceduralHand();
+    this.handModel = model.hand;
+    this.scene.add(this.handModel);
+    this.createNails(model.anchors);
   }
 
-  createNails() {
-    const nailPositions = [
-      { x: -0.3, y: 0.13, width: 0.17, name: 'Thumb' },
-      { x: -0.15, y: 0.17, width: 0.14, name: 'Index' },
-      { x: 0, y: 0.19, width: 0.15, name: 'Middle' },
-      { x: 0.15, y: 0.17, width: 0.14, name: 'Ring' },
-      { x: 0.3, y: 0.13, width: 0.12, name: 'Pinky' },
-    ];
-
-    nailPositions.forEach((pos) => {
+  createNails(anchors) {
+    anchors.forEach((pos) => {
       const nail = this.createNail(pos);
       this.nails.push({ mesh: nail, position: pos });
-      this.scene.add(nail);
     });
   }
 
@@ -126,7 +110,12 @@ class NailAtelier {
     const material = this.createNailMaterial();
 
     const nail = new THREE.Mesh(geometry, material);
-    nail.position.set(position.x, position.y, 0.2);
+    if (position.anchor) {
+      position.anchor.add(nail);
+      nail.position.copy(position.nailOffset);
+    } else {
+      nail.position.set(position.x, position.y, 0.2);
+    }
     nail.castShadow = true;
     nail.receiveShadow = true;
 
@@ -302,11 +291,17 @@ class NailAtelier {
   }
 
   dispose() {
-    this.nails.forEach((nail) => {
-      nail.mesh.geometry.dispose();
-      nail.mesh.material.dispose();
+    this.scene.traverse((object) => {
+      if (!object.isMesh) return;
+      object.geometry?.dispose();
+      if (Array.isArray(object.material)) {
+        object.material.forEach((material) => material.dispose());
+      } else {
+        object.material?.dispose();
+      }
     });
     this.renderer.dispose();
+    this.renderer.domElement.remove();
   }
 }
 
