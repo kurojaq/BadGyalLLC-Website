@@ -5,6 +5,7 @@
 // The 3D engine (Three.js, ~500 kB) is loaded on demand so it never lands in
 // the entry bundle. Only visitors who open the atelier pay for it.
 let atelier3d = null;
+let closeHandCapture = null;
 
 export function loadAtelierPage(outlet) {
   outlet.innerHTML = `
@@ -36,6 +37,13 @@ export function loadAtelierPage(outlet) {
           flex-direction: column;
         ">
           <h2 class="heading-4" style="margin-bottom: var(--space-4);">Customize</h2>
+
+          <div class="hand-capture-card">
+            <p class="eyebrow">Personal preview</p>
+            <p class="body-sm">See the design on a profile of your own hand.</p>
+            <button type="button" class="btn btn-primary btn-block" id="hand-capture-trigger">Capture my hand</button>
+            <p class="body-xs hand-capture-status" id="hand-capture-status" aria-live="polite">Camera stays on your device during capture.</p>
+          </div>
 
           <!-- Service Type -->
           <div class="control-group">
@@ -205,6 +213,18 @@ async function bootAtelier() {
 
 function setupAtelierControls() {
   if (!atelier3d) return;
+
+  import('../engine/hand-capture.js').then(({ setupHandCapture }) => {
+    closeHandCapture = setupHandCapture({
+      trigger: document.getElementById('hand-capture-trigger'),
+      status: document.getElementById('hand-capture-status'),
+      onCapture: (profile) => {
+        atelier3d?.applyHandProfile(profile);
+        const status = document.getElementById('hand-capture-status');
+        if (status) status.textContent = 'Profile captured — ready for personalized fitting.';
+      },
+    });
+  });
 
   // Length slider
   const lengthSlider = document.getElementById('length-slider');

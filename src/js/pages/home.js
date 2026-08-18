@@ -22,8 +22,7 @@ export function loadHomePage(outlet) {
       </div>
       <div class="gallery-hero__poster" aria-hidden="true">
         <span class="poster-sticker poster-sticker--top">☆ NEW DROP ☆</span>
-        <span class="poster-nail">💅</span>
-        <span class="poster-phone">☎</span>
+        <img class="gallery-hero__emblem" src="assets/brand/badgyallery-emblem.png" alt="">
         <span class="poster-caption">made for<br>the internet</span>
         <span class="poster-url">badgyallery.exe</span>
       </div>
@@ -31,6 +30,26 @@ export function loadHomePage(outlet) {
 
     <section class="marquee-strip" aria-label="Brand themes">
       <div class="marquee-strip__track">NAIL ART <span>✦</span> PERSONAL STYLE <span>✦</span> DIGITAL ATELIER <span>✦</span> CREATIVE CARE <span>✦</span> NAIL ART <span>✦</span> PERSONAL STYLE <span>✦</span></div>
+    </section>
+
+    <section class="brand-board-section" aria-labelledby="brand-board-title">
+      <div class="container brand-board-layout">
+        <div class="brand-board-copy">
+          <p class="eyebrow">The BadGyallery visual system</p>
+          <h2 id="brand-board-title" class="heading-2">Every mark has a place.</h2>
+          <p class="body-lg">From the profile icon to the signature script, the gallery is built as a flexible identity system for web, social, packaging, and the atelier.</p>
+          <div class="brand-board-roles" aria-label="Brand mark roles">
+            <span>Profile icon</span>
+            <span>Web wordmark</span>
+            <span>Video watermark</span>
+            <span>Art mark</span>
+          </div>
+        </div>
+        <figure class="brand-board-frame">
+          <img src="assets/brand/badgyallery-brand-board.jpg" alt="BadGyallery brand board showing the main icon, horizontal wordmark, video watermark, signature script, art mark, banner, stickers, packaging, and social profile examples">
+          <figcaption>Official mark placement guide</figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- Services Overview -->

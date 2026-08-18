@@ -15,6 +15,7 @@ class NailAtelier {
     this.renderer = null;
     this.nails = [];
     this.handModel = null;
+    this.handProfile = null;
     this.light = null;
     this.customization = {
       color: '#ff168f',
@@ -257,7 +258,13 @@ class NailAtelier {
   }
 
   getCustomization() {
-    return { ...this.customization };
+    return { ...this.customization, handProfile: this.handProfile };
+  }
+
+  applyHandProfile(profile) {
+    this.handProfile = profile;
+    this.handModel.userData.handProfile = profile;
+    this.render();
   }
 
   setCustomization(config) {

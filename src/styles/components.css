@@ -27,15 +27,26 @@
 .logo {
   color: var(--color-primary);
   text-decoration: none;
-  display: block;
-  width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 190px;
   line-height: 0;
 }
 
 .logo img {
-  width: 100%;
   height: auto;
   display: block;
+}
+
+.logo-emblem {
+  width: 46px;
+  flex: 0 0 46px;
+}
+
+.logo-wordmark {
+  width: 126px;
+  flex: 1 1 auto;
 }
 
 .navbar-menu {
